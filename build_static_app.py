@@ -141,6 +141,8 @@ HTML_TEMPLATE = '''<!doctype html>
 
   <div class="main">
     <div id="meta" style="margin-bottom: 12px;"></div>
+    <div id="permalink-row" style="margin: 4px 0 12px;"></div>
+    <div id="banned-warning" style="display: none; margin: 0 0 12px; padding: 8px 12px; background: #fff4e6; border: 1px solid #f0c060; border-radius: 4px; font-size: 0.9em;"></div>
 
     <h2>Thread title</h2>
     <div class="box grey" id="title"></div>
@@ -151,7 +153,7 @@ HTML_TEMPLATE = '''<!doctype html>
     <h2>Comment to code</h2>
     <div class="box" id="body"></div>
 
-    <h2>Apply the decision tree (Q1 &rarr; Q2 &rarr; Q3)</h2>
+    <h2>Apply the decision tree (use Step 0 first)</h2>
 
     <div id="dvs"></div>
 
@@ -265,11 +267,9 @@ function syncOne(item_id, codes) {{
     coder: coder,
     pair: PAIR,
     timestamp: codes.timestamp || new Date().toISOString(),
-    type: codes.type || '',
-    challenge_direction: codes.challenge_direction || '',
-    coherence_shift: codes.coherence_shift || '',
     notes: codes.notes || ''
   }};
+  CODEBOOK.dvs.forEach(dv => {{ payload[dv.name] = codes[dv.name] || ''; }});
   return fetch(SHEETS_ENDPOINT, {{
     method: 'POST',
     headers: {{ 'Content-Type': 'text/plain;charset=utf-8' }},
@@ -317,6 +317,31 @@ function render() {{
   document.getElementById('parent').textContent = item.query || '(top-level comment)';
   document.getElementById('body').textContent = item.response_text || '';
   document.getElementById('notes').value = prior.notes || '';
+
+  const linkRow = document.getElementById('permalink-row');
+  linkRow.innerHTML = '';
+  if (item.permalink) {{
+    const a = document.createElement('a');
+    a.href = item.permalink;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.cssText = 'display: inline-block; padding: 6px 12px; background: #ff4500; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.9em; font-weight: 600;';
+    a.textContent = 'View original Reddit thread →';
+    linkRow.appendChild(a);
+    const note = document.createElement('span');
+    note.className = 'small';
+    note.style.marginLeft = '10px';
+    note.textContent = 'Opens in a new tab. Use this for image posts, selftext, or full thread context.';
+    linkRow.appendChild(note);
+  }}
+
+  const bannedEl = document.getElementById('banned-warning');
+  if (item.subreddit_banned) {{
+    bannedEl.style.display = 'block';
+    bannedEl.innerHTML = 'r/NoNewNormal was banned by Reddit, so the link above will show "this community has been banned." For NNN items the title and parent text are usually enough. If you need more context, try the Wayback Machine archive of the same URL (<a href="https://web.archive.org/web/*/' + item.permalink + '" target="_blank" rel="noopener noreferrer">search snapshots</a>).';
+  }} else {{
+    bannedEl.style.display = 'none';
+  }}
 
   const dvWrap = document.getElementById('dvs');
   dvWrap.innerHTML = '';

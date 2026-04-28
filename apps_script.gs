@@ -19,6 +19,7 @@ const HEADERS = [
   'coder',
   'pair',
   'timestamp',
+  'thread_has_claim',
   'type',
   'challenge_direction',
   'coherence_shift',

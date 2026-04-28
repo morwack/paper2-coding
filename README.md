@@ -58,7 +58,7 @@ The codebook PDF lives in the validation folder of the no-canon paper. Send it a
    python3 build_static_app.py
    ```
    Output should report `sheet endpoint: yes` for both pairs.
-3. Local smoke test. Double-click `pair1.html`, sign in as `coder1`, code one item, hit **Save and next**. The status line next to the button should show `Saved and synced` in green within a second. Switch to the Google Sheet tab. A new `coder1` tab should now exist with one row. Reset the test session afterward (sidebar Reset button).
+3. Push the rebuilt HTML to GitHub Pages (Step 3 below) and smoke-test on the live URL. There is no need to open `pair1.html` locally. The app is only useful through the hosted URL because that is the same origin coders will use, and any localStorage state on `file://` is irrelevant to them.
 
 ### Step 3. Push to GitHub and enable GitHub Pages
 
@@ -89,17 +89,17 @@ That is the link you send to coders.
 
 ## Pre-flight check before sending
 
-Open the live Pair 1 URL (not the local file) in a clean browser window.
+Open the live Pair 1 URL (<https://www.morganwack.com/paper2-coding/pair1.html>) in a clean browser window.
 
 1. Sign in as `test`. The page transitions to the coding view, but `test` is not in the allowed list, so the sheet sync will report an error in the status line. That is expected.
 2. Sign out, sign in again as `coder1`.
 3. Code 2 items, click **Save and next** each time. The status line should show `Saved and synced` in green within about one second.
 4. Switch to the Google Sheet. You should see two rows on the `coder1` tab.
 5. Edit one of the items in the app and hit Save again. The same row in the sheet should update in place (no duplicate row).
-6. Click **Download my codes (CSV)**. CSV downloads with the expected header and rows.
-7. Click **Reset (clears codes)** to wipe the test session.
+6. Click the orange **View original Reddit thread** button on at least one item to confirm the permalink opens correctly.
+7. Click **Reset (clears codes)** to wipe the test session, then delete the `coder1` tab from the Sheet so it is empty for real coders.
 
-Repeat the same check on `pair2.html` with `coder3`.
+Repeat the same check on the Pair 2 URL with `coder3`.
 
 ---
 
@@ -119,19 +119,20 @@ Attachments, `CODER_INSTRUCTIONS.pdf`
 >
 > **What I need from each of you**
 >
-> 1. **Read `CODER_INSTRUCTIONS.pdf` carefully** (~30 min). It walks through the Q1 → Q2 → Q3 decision tree and gives paradigmatic examples for each category.
+> 1. **Read `CODER_INSTRUCTIONS.pdf` carefully** (~30 min). It walks through Step 0 (does the thread carry a checkable claim?) and the Q1 → Q2 → Q3 decision tree, with paradigmatic examples for each category.
 > 2. **Open the coding page in any browser** (Chrome, Safari, Firefox, Edge are all fine).
 >     - **`[Name1]`**, your link is <https://www.morganwack.com/paper2-coding/pair1.html> and you sign in as `coder1`.
 >     - **`[Name2]`**, your link is <https://www.morganwack.com/paper2-coding/pair1.html> and you sign in as `coder2`.
 >     Use the same browser and the same machine for the whole task. Your progress saves automatically (no account needed). It's safe to close the tab and come back later.
-> 3. **Calibration round (do this together).** Schedule a 1-hour call with each other before going independent. On the call, each of you codes the first 20 comments (items 1–20) on your own, then compare your codes side by side and discuss any disagreements. The goal is to align on the boundary cases (DISMISS vs OFF, CHALLENGE vs BUILD) before doing the rest alone.
-> 4. **Independent round.** Once calibration is done, code items 21–200 on your own. **Do not look at your co-coder's codes** during this part. Click "Save and next" after each item.
-> 5. **No need to email anything back.** Each save is automatically posted to a shared Google Sheet on my end. The little status line next to the Save button confirms each row reached the sheet. If you ever see a red `Saved locally, sheet sync failed` message, it means the save is in your browser but not yet in the sheet. Click the blue **Sync unsynced to sheet** button in the sidebar to push everything that hasn't made it through.
+> 3. **Use the orange "View original Reddit thread" button** whenever the title and parent comment are not enough context. Many Superstonk and r/conspiracy threads are image posts, so the link will show you the screenshot, selftext, and surrounding replies the comment was reacting to. (For r/NoNewNormal items, the subreddit was banned by Reddit, so the link will show a "banned" page. For NNN you can usually code from text alone, or try the Wayback Machine link the page suggests.)
+> 4. **Calibration round (do this together).** Schedule a one-hour call with each other before going independent. On the call, each of you codes the first 20 comments (items 1 to 20) on your own, then compare your codes side by side and discuss any disagreements. The goal is to align on the boundary cases (DISMISS vs OFF, CHALLENGE vs BUILD, and Step 0 thread-has-claim) before doing the rest alone.
+> 5. **Independent round.** Once calibration is done, code items 21 to 200 on your own. **Do not look at your co-coder's codes** during this part. Click "Save and next" after each item.
+> 6. **No need to email anything back.** Each save automatically posts to a shared Google Sheet on my end. The status line next to the Save button confirms each row reached the sheet. If you ever see a red `Saved locally, sheet sync failed` message, click the blue **Sync unsynced to sheet** button in the sidebar to push everything that hasn't made it through.
 >
 > **Practical reminders**
 > - The interface saves automatically as you click Save and next. You can stop and resume any time.
 > - **Use one consistent browser on one machine** through the whole task. If you switch browsers or machines, you'll lose any items that were saved locally but never reached the sheet. Items already on the sheet are safe.
-> - Don't clear browser cookies/site data while you're working. As insurance, the sidebar shows how many items have actually reached the sheet.
+> - Don't clear browser cookies or site data while you're working. The sidebar counter shows how many items have actually reached the sheet.
 > - If anything in the codebook feels ambiguous, jot a note in the Notes box for that item and keep going. We can discuss flagged items afterward.
 >
 > Reach out with any questions. Thanks again!
@@ -149,7 +150,7 @@ Same as above, but,
 
 ## What you receive at the end
 
-One Google Sheet with four tabs (`coder1`, `coder2`, `coder3`, `coder4`). Each row has columns `item_id, community, coder, pair, timestamp, type, challenge_direction, coherence_shift, notes`.
+One Google Sheet with four tabs (`coder1`, `coder2`, `coder3`, `coder4`). Each row has columns `item_id, community, coder, pair, timestamp, thread_has_claim, type, challenge_direction, coherence_shift, notes`.
 
 To pull each tab to a CSV for the agreement script, use **File → Download → Comma-separated values (.csv)** in the Sheet, once per tab. Save the four files as `coder1_pair1_codes.csv`, `coder2_pair1_codes.csv`, `coder3_pair2_codes.csv`, `coder4_pair2_codes.csv` to match what `compute_agreement.py` expects.
 
