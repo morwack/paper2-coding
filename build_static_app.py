@@ -302,6 +302,37 @@ async function syncAll() {{
   alert(`Sync done. ${{ok}} reached the sheet, ${{fail}} failed (still saved locally — try again later).`);
 }}
 
+function renderRedditText(el, txt) {{
+  el.innerHTML = '';
+  if (!txt) {{ el.textContent = ''; return; }}
+  const re = /!\[(?:gif|img)\]\(giphy\|([^|)]+)(?:\|[^)]+)?\)|!\[(?:gif|img)\]\((emote|sticker)\|[^)]+\)/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(txt)) !== null) {{
+    if (m.index > last) {{
+      el.appendChild(document.createTextNode(txt.slice(last, m.index)));
+    }}
+    if (m[1]) {{
+      const gifId = m[1];
+      const img = document.createElement('img');
+      img.src = 'https://media.giphy.com/media/' + gifId + '/giphy.gif';
+      img.alt = 'giphy ' + gifId;
+      img.style.cssText = 'display: block; max-width: 100%; max-height: 320px; border: 1px solid #ddd; border-radius: 4px; margin: 6px 0;';
+      img.onerror = function () {{ this.replaceWith(document.createTextNode('[Giphy GIF unavailable: ' + gifId + ' — open the original Reddit thread to view it]')); }};
+      el.appendChild(img);
+    }} else {{
+      const note = document.createElement('span');
+      note.style.cssText = 'display: inline-block; padding: 2px 6px; background: #eef; border-radius: 4px; font-size: 0.85em; color: #335;';
+      note.textContent = '[Reddit ' + m[2] + ' embed — view in original thread]';
+      el.appendChild(note);
+    }}
+    last = m.index + m[0].length;
+  }}
+  if (last < txt.length) {{
+    el.appendChild(document.createTextNode(txt.slice(last)));
+  }}
+}}
+
 function render() {{
   const item = ITEMS[idx];
   const all = loadCodes();
@@ -313,9 +344,9 @@ function render() {{
     + `<span class="pill">Community: ${{item.system}}</span>`
     + `<span class="pill">${{item.framing || ''}}</span>`;
 
-  document.getElementById('title').textContent = item.claim_text || '(no thread title)';
-  document.getElementById('parent').textContent = item.query || '(top-level comment)';
-  document.getElementById('body').textContent = item.response_text || '';
+  renderRedditText(document.getElementById('title'), item.claim_text || '(no thread title)');
+  renderRedditText(document.getElementById('parent'), item.query || '(top-level comment)');
+  renderRedditText(document.getElementById('body'), item.response_text || '');
   document.getElementById('notes').value = prior.notes || '';
 
   const linkRow = document.getElementById('permalink-row');
