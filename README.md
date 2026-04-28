@@ -4,6 +4,21 @@ Two single-file HTML coding apps, one per coder pair, for the human-validation p
 
 ---
 
+### Current deployment (recorded 2026-04-28)
+
+| Resource | URL |
+|----------|-----|
+| Pair 1 coder link | <https://www.morganwack.com/paper2-coding/pair1.html> |
+| Pair 2 coder link | <https://www.morganwack.com/paper2-coding/pair2.html> |
+| Submissions Sheet (you only) | <https://docs.google.com/spreadsheets/d/1h8H01eEAsIG6aYNZagruDPs0NqhU4fJxfEHlxrbqflg/edit> |
+| Apps Script project | <https://script.google.com/u/0/home/projects/1xZDda-3RELueYdU-YaYDJ0ObLBboaoZIoF6FK92A-bqS6WJ-p7SWyR0W/edit> |
+| Apps Script web app endpoint (do not share) | `https://script.google.com/macros/s/AKfycbyjua4ZBIVRtIrQUZAZvgDvhaAbZmhEVKkeO0TjNcdSYdS45fMyVfTB-Em4azbciGUuhQ/exec` |
+| GitHub repo | <https://github.com/morwack/paper2-coding> |
+
+The end-to-end save round-trip was verified live on 2026-04-28 (Pair 1, signed in as `coder1`, item 1 saved as DISMISS / N/A / N/A). The custom domain `www.morganwack.com` is in front of GitHub Pages because it is configured at the user account level. Coders should use the morganwack.com URL, not the morwack.github.io variant, since GitHub redirects the latter to the former.
+
+---
+
 ### Files in this folder
 
 | File | What it is |
@@ -65,8 +80,8 @@ The `gh` CLI is not installed on this machine, so the repo creation step happens
    (If your SSH key is registered under a different GitHub username, swap `morwack`.)
 3. On GitHub, open the repo's **Settings → Pages**. Source, *Deploy from a branch*. Branch, `main`, folder `/ (root)`. Save.
 4. Wait roughly 30 seconds. Coder URLs are then:
-   - Pair 1, <https://morwack.github.io/paper2-coding/pair1.html>
-   - Pair 2, <https://morwack.github.io/paper2-coding/pair2.html>
+   - Pair 1, <https://www.morganwack.com/paper2-coding/pair1.html>
+   - Pair 2, <https://www.morganwack.com/paper2-coding/pair2.html>
 
 That is the link you send to coders.
 
@@ -106,8 +121,8 @@ Attachments, `CODER_INSTRUCTIONS.pdf`
 >
 > 1. **Read `CODER_INSTRUCTIONS.pdf` carefully** (~30 min). It walks through the Q1 → Q2 → Q3 decision tree and gives paradigmatic examples for each category.
 > 2. **Open the coding page in any browser** (Chrome, Safari, Firefox, Edge are all fine).
->     - **`[Name1]`**, your link is <https://morwack.github.io/paper2-coding/pair1.html> and you sign in as `coder1`.
->     - **`[Name2]`**, your link is <https://morwack.github.io/paper2-coding/pair1.html> and you sign in as `coder2`.
+>     - **`[Name1]`**, your link is <https://www.morganwack.com/paper2-coding/pair1.html> and you sign in as `coder1`.
+>     - **`[Name2]`**, your link is <https://www.morganwack.com/paper2-coding/pair1.html> and you sign in as `coder2`.
 >     Use the same browser and the same machine for the whole task. Your progress saves automatically (no account needed). It's safe to close the tab and come back later.
 > 3. **Calibration round (do this together).** Schedule a 1-hour call with each other before going independent. On the call, each of you codes the first 20 comments (items 1–20) on your own, then compare your codes side by side and discuss any disagreements. The goal is to align on the boundary cases (DISMISS vs OFF, CHALLENGE vs BUILD) before doing the rest alone.
 > 4. **Independent round.** Once calibration is done, code items 21–200 on your own. **Do not look at your co-coder's codes** during this part. Click "Save and next" after each item.
@@ -126,7 +141,7 @@ Attachments, `CODER_INSTRUCTIONS.pdf`
 ### Email to Pair 2
 
 Same as above, but,
-- The link is <https://morwack.github.io/paper2-coding/pair2.html>
+- The link is <https://www.morganwack.com/paper2-coding/pair2.html>
 - Replace "Pair 1" with "Pair 2"
 - The two coders sign in as `coder3` and `coder4`
 
